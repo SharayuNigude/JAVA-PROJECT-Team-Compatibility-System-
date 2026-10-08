@@ -1,0 +1,844 @@
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Team Compatibility System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f8;
+            color: #333;
+        }
+
+        /* top section */
+
+        .header {
+            background: #263c77;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            font-size: 15px;
+        }
+
+        /* main box */
+
+        .box {
+            width: 850px;
+            max-width: 95%;
+            margin: 35px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #263c77;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #333;
+        }
+
+        /* login */
+
+        .login-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .login-box p {
+            color: #666;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            margin: 15px 0;
+        }
+
+        /* buttons */
+
+        button {
+            background: #263c77;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 7px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1c2d5d;
+        }
+
+        /* instructions */
+
+        .instructions {
+            background: #eef2ff;
+            border-left: 4px solid #263c77;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .instructions p {
+            margin: 5px 0;
+        }
+
+        /* questions */
+
+        .question {
+            background: #fafafa;
+            border: 1px solid #e2e2e2;
+            padding: 18px;
+            margin: 14px 0;
+            border-radius: 8px;
+        }
+
+        .question p {
+            margin-top: 0;
+            font-weight: bold;
+        }
+
+        .options {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .options label {
+            flex: 1;
+            text-align: center;
+            padding: 9px 5px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .options label:hover {
+            background: #eef2ff;
+        }
+
+        .options input {
+            margin-right: 4px;
+        }
+
+        /* results */
+
+        .result {
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 18px;
+            margin: 12px 0;
+            border-radius: 8px;
+        }
+
+        .person-name {
+            color: #263c77;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .score {
+            display: inline-block;
+            background: #263c77;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        /* best match */
+
+        .best {
+            background: #e8f6ea;
+            border: 2px solid #4caf50;
+            text-align: center;
+            padding: 25px;
+            margin-top: 25px;
+        }
+
+        .best h2 {
+            color: #258238;
+        }
+
+        .best-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #258238;
+        }
+
+        .best-score {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* hide */
+
+        .hide {
+            display: none;
+        }
+
+        /* mobile */
+
+        @media (max-width: 700px) {
+
+            .box {
+                padding: 20px;
+            }
+
+            input[type="text"] {
+                width: 100%;
+            }
+
+            .options {
+                flex-wrap: wrap;
+            }
+
+            .options label {
+                min-width: 45%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>Team Compatibility System</h1>
+
+    <p>
+        Personality Based Team Matching
+    </p>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="box">
+
+
+    <!-- LOGIN -->
+
+    <div id="login">
+
+        <div class="login-box">
+
+            <h2>Student Login</h2>
+
+            <p>
+                Enter your name to start the personality test.
+            </p>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter your name"
+            >
+
+            <br>
+
+            <button onclick="startTest()">
+                Start Test
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- TEST -->
+
+    <div id="test" class="hide">
+
+        <h2 id="student"></h2>
+
+
+        <div class="instructions">
+
+            <p><b>How to answer:</b></p>
+
+            <p>1 = Strongly Disagree</p>
+
+            <p>2 = Disagree</p>
+
+            <p>3 = Neutral</p>
+
+            <p>4 = Agree</p>
+
+            <p>5 = Strongly Agree</p>
+
+        </div>
+
+
+        <div id="questionList"></div>
+
+
+        <button onclick="submitTest()">
+            Submit Answers
+        </button>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div id="result" class="hide">
+
+        <h2>Personality & Compatibility Result</h2>
+
+        <div id="output"></div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+    // 15 questions
+
+    let questions = [
+
+        "I like creating new ideas.",
+
+        "I like trying new ways to solve problems.",
+
+        "I enjoy learning new things.",
+
+        "I complete my work on time.",
+
+        "I keep my work organized.",
+
+        "I pay attention to details.",
+
+        "I can take leadership in a group.",
+
+        "I share my ideas during discussions.",
+
+        "I am comfortable meeting new people.",
+
+        "I listen to my teammates.",
+
+        "I respect other people's opinions.",
+
+        "I try to solve conflicts calmly.",
+
+        "I stay calm when there is pressure.",
+
+        "I can accept criticism.",
+
+        "I can handle stress during projects."
+
+    ];
+
+
+    let students = [];
+
+    let currentStudent = 0;
+
+
+    // Start test
+
+    function startTest() {
+
+        let name =
+            document.getElementById("name").value;
+
+
+        if (name.trim() == "") {
+
+            alert("Please enter your name.");
+
+            return;
+        }
+
+
+        document.getElementById("student").innerHTML =
+            "Hello, " + name;
+
+
+        document.getElementById("login")
+            .classList.add("hide");
+
+
+        document.getElementById("test")
+            .classList.remove("hide");
+
+
+        showQuestions();
+
+    }
+
+
+    // Display questions
+
+    function showQuestions() {
+
+        let list =
+            document.getElementById("questionList");
+
+
+        list.innerHTML = "";
+
+
+        for (let i = 0; i < questions.length; i++) {
+
+            let q =
+                document.createElement("div");
+
+
+            q.className = "question";
+
+
+            q.innerHTML =
+
+                "<p>" +
+                (i + 1) +
+                ". " +
+                questions[i] +
+                "</p>" +
+
+                "<div class='options'>" +
+
+                "<label>" +
+                "<input type='radio' name='q" +
+                i +
+                "' value='1'> 1" +
+                "</label>" +
+
+                "<label>" +
+                "<input type='radio' name='q" +
+                i +
+                "' value='2'> 2" +
+                "</label>" +
+
+                "<label>" +
+                "<input type='radio' name='q" +
+                i +
+                "' value='3'> 3" +
+                "</label>" +
+
+                "<label>" +
+                "<input type='radio' name='q" +
+                i +
+                "' value='4'> 4" +
+                "</label>" +
+
+                "<label>" +
+                "<input type='radio' name='q" +
+                i +
+                "' value='5'> 5" +
+                "</label>" +
+
+                "</div>";
+
+
+            list.appendChild(q);
+
+        }
+
+    }
+
+
+    // Submit answers
+
+    function submitTest() {
+
+        let answers = [];
+
+
+        for (let i = 0; i < 15; i++) {
+
+            let answer =
+                document.querySelector(
+                    "input[name='q" +
+                    i +
+                    "']:checked"
+                );
+
+
+            if (answer == null) {
+
+                alert(
+                    "Please answer Question " +
+                    (i + 1)
+                );
+
+                return;
+
+            }
+
+
+            answers.push(
+                Number(answer.value)
+            );
+
+        }
+
+
+        let name =
+            document.getElementById("name").value;
+
+
+        let personality =
+            getPersonality(answers);
+
+
+        students.push({
+
+            name: name,
+
+            personality: personality
+
+        });
+
+
+        currentStudent++;
+
+
+        if (currentStudent < 4) {
+
+            alert(
+                "Student " +
+                currentStudent +
+                " completed."
+            );
+
+
+            nextStudent();
+
+        }
+
+        else {
+
+            showResult();
+
+        }
+
+    }
+
+
+    // Calculate OCEAN scores
+
+    function getPersonality(a) {
+
+        return {
+
+            openness:
+                average(a, 0, 3),
+
+            conscientiousness:
+                average(a, 3, 6),
+
+            extraversion:
+                average(a, 6, 9),
+
+            agreeableness:
+                average(a, 9, 12),
+
+            stability:
+                average(a, 12, 15)
+
+        };
+
+    }
+
+
+    // Average
+
+    function average(a, start, end) {
+
+        let sum = 0;
+
+
+        for (let i = start; i < end; i++) {
+
+            sum =
+                sum + a[i];
+
+        }
+
+
+        return sum / 3;
+
+    }
+
+
+    // Next student
+
+    function nextStudent() {
+
+        document.getElementById("name").value = "";
+
+
+        document.getElementById("test")
+            .classList.add("hide");
+
+
+        document.getElementById("login")
+            .classList.remove("hide");
+
+
+        document.querySelector("#login h2")
+            .innerHTML =
+            "Student " +
+            (currentStudent + 1) +
+            " Login";
+
+    }
+
+
+    // Compatibility
+
+    function getCompatibility(p1, p2) {
+
+        let difference = 0;
+
+
+        difference +=
+            Math.abs(
+                p1.openness -
+                p2.openness
+            );
+
+
+        difference +=
+            Math.abs(
+                p1.conscientiousness -
+                p2.conscientiousness
+            );
+
+
+        difference +=
+            Math.abs(
+                p1.extraversion -
+                p2.extraversion
+            );
+
+
+        difference +=
+            Math.abs(
+                p1.agreeableness -
+                p2.agreeableness
+            );
+
+
+        difference +=
+            Math.abs(
+                p1.stability -
+                p2.stability
+            );
+
+
+        let score =
+            100 -
+            (difference / 20 * 100);
+
+
+        return Math.round(score);
+
+    }
+
+
+    // Final result
+
+    function showResult() {
+
+        document.getElementById("test")
+            .classList.add("hide");
+
+
+        document.getElementById("result")
+            .classList.remove("hide");
+
+
+        let output = "";
+
+
+        output +=
+            "<h3>Personality Scores</h3>";
+
+
+        // Personality scores
+
+        for (let i = 0; i < students.length; i++) {
+
+            let p =
+                students[i].personality;
+
+
+            output +=
+
+                "<div class='result'>" +
+
+                "<div class='person-name'>" +
+                students[i].name +
+                "</div>" +
+
+                "<p>Openness: " +
+                p.openness.toFixed(2) +
+                "</p>" +
+
+                "<p>Conscientiousness: " +
+                p.conscientiousness.toFixed(2) +
+                "</p>" +
+
+                "<p>Extraversion: " +
+                p.extraversion.toFixed(2) +
+                "</p>" +
+
+                "<p>Agreeableness: " +
+                p.agreeableness.toFixed(2) +
+                "</p>" +
+
+                "<p>Emotional Stability: " +
+                p.stability.toFixed(2) +
+                "</p>" +
+
+                "</div>";
+
+        }
+
+
+        output +=
+            "<h3>Compatibility Results</h3>";
+
+
+        let bestScore = -1;
+
+        let person1 = "";
+
+        let person2 = "";
+
+
+        // Compare all 6 pairs
+
+        for (let i = 0; i < 4; i++) {
+
+            for (let j = i + 1; j < 4; j++) {
+
+                let score =
+                    getCompatibility(
+                        students[i].personality,
+                        students[j].personality
+                    );
+
+
+                output +=
+
+                    "<div class='result'>" +
+
+                    "<b>" +
+                    students[i].name +
+                    " + " +
+                    students[j].name +
+                    "</b>" +
+
+                    "<br>" +
+
+                    "<span class='score'>" +
+                    score +
+                    "% Compatible" +
+                    "</span>" +
+
+                    "</div>";
+
+
+                if (score > bestScore) {
+
+                    bestScore = score;
+
+                    person1 =
+                        students[i].name;
+
+                    person2 =
+                        students[j].name;
+
+                }
+
+            }
+
+        }
+
+
+        // Best match
+
+        output +=
+
+            "<div class='best'>" +
+
+            "<h2>Best Match</h2>" +
+
+            "<div class='best-name'>" +
+
+            person1 +
+            " + " +
+            person2 +
+
+            "</div>" +
+
+            "<p class='best-score'>" +
+
+            bestScore +
+            "% Compatible" +
+
+            "</p>" +
+
+            "<p>" +
+            "These two students have the highest " +
+            "compatibility score among the four students." +
+            "</p>" +
+
+            "</div>";
+
+
+        document.getElementById("output")
+            .innerHTML = output;
+
+    }
+
+
+</script>
+
+
+</body>
+
+</html>
+```
